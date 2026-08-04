@@ -142,6 +142,28 @@
         </div>
     }
 
+    <!-- Search and Sort Form -->
+    <form asp-action="Index" method="get" class="row g-3 mb-4">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" name="searchString" class="form-control" placeholder="Search by name or category..." value="@ViewData["CurrentFilter"]" />
+                <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <select name="sortBy" class="form-select" onchange="this.form.submit()">
+                <option value="" selected="@(string.IsNullOrEmpty(ViewData["CurrentSort"] as string) ? "selected" : null)">Sort by Name (A-Z)</option>
+                <option value="name_desc" selected="@((ViewData["CurrentSort"] as string) == "name_desc" ? "selected" : null)">Sort by Name (Z-A)</option>
+                <option value="category" selected="@((ViewData["CurrentSort"] as string) == "category" ? "selected" : null)">Sort by Category</option>
+                <option value="price" selected="@((ViewData["CurrentSort"] as string) == "price" ? "selected" : null)">Sort by Price (Low to High)</option>
+                <option value="price_desc" selected="@((ViewData["CurrentSort"] as string) == "price_desc" ? "selected" : null)">Sort by Price (High to Low)</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <a asp-action="Index" class="btn btn-secondary w-100">Clear</a>
+        </div>
+    </form>
+
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
@@ -244,4 +266,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Pagination -->
+    @if (ViewData["TotalPages"] != null && ((int?)ViewData["TotalPages"] ?? 0) > 1)
+    {
+        int totalPages = (int)ViewData["TotalPages"]!;
+        int currentPage = (int?)ViewData["CurrentPage"] ?? 1;
+        <nav aria-label="Product navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortBy="@ViewData["CurrentSort"]">Previous</a>
+                </li>
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortBy="@ViewData["CurrentSort"]">@i</a>
+                    </li>
+                }
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortBy="@ViewData["CurrentSort"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
 </div>

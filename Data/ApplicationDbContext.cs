@@ -16,6 +16,7 @@ namespace Ice_Cream_Parlour_Eproject.Data
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<UserRecipe> UserRecipes { get; set; }
         public DbSet<Product> Products { get; set; }

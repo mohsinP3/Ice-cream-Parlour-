@@ -20,49 +20,59 @@ namespace Ice_Cream_Parlour_Eproject.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var todaySales = (await _context.Orders
+                .Where(o => o.OrderDate.Date == DateTime.Today.Date)
+                .Select(o => o.TotalAmount)
+                .ToListAsync()).Sum();
+
+            var monthlySales = (await _context.Orders
+                .Where(o => o.OrderDate.Month == DateTime.Now.Month && o.OrderDate.Year == DateTime.Now.Year)
+                .Select(o => o.TotalAmount)
+                .ToListAsync()).Sum();
+
+            var lowStockProducts = await _context.Products
+                .Where(p => p.StockQuantity <= p.LowStockThreshold)
+                .Select(p => new LowStockProductDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    StockQuantity = p.StockQuantity,
+                    LowStockThreshold = p.LowStockThreshold,
+                    StockPercent = p.LowStockThreshold > 0 ? (int)((double)p.StockQuantity / p.LowStockThreshold * 100) : 0
+                })
+                .Take(5)
+                .ToListAsync();
+
+            var allOrderItems = await _context.Orders
+                .SelectMany(o => o.OrderItems)
+                .Select(oi => new { oi.ProductId, oi.ProductName, oi.Quantity, oi.UnitPrice })
+                .ToListAsync();
+
+            var topSellingProducts = allOrderItems
+                .GroupBy(oi => new { oi.ProductId, oi.ProductName })
+                .Select(g => new TopSellingProductDto
+                {
+                    ProductId = g.Key.ProductId,
+                    ProductName = g.Key.ProductName,
+                    TotalSold = g.Sum(oi => oi.Quantity),
+                    Revenue = g.Sum(oi => oi.Quantity * oi.UnitPrice)
+                })
+                .OrderByDescending(x => x.TotalSold)
+                .Take(5)
+                .ToList();
+
             var model = new DashboardViewModel
             {
                 TotalOrders = await _context.Orders.CountAsync(),
-                TotalCustomers = await _context.Users.CountAsync(),
-                TotalProducts = await _context.Recipes.CountAsync(),  
-                TotalCategories = await _context.Recipes.Select(r => r.Category).Distinct().CountAsync(),
-
-                TodaySales = await _context.Orders
-                    .Where(o => o.OrderDate.Date == DateTime.Today)
-                    .SumAsync(o => o.TotalAmount),
-
-                MonthlySales = await _context.Orders
-                    .Where(o => o.OrderDate.Month == DateTime.Now.Month)
-                    .SumAsync(o => o.TotalAmount),
-
-                // Revenue Chart Data (Last 7 Days)
+                TotalCustomers = await _context.Customers.CountAsync(),
+                TotalProducts = await _context.Products.CountAsync(),
+                TotalCategories = await _context.Categories.CountAsync(),
+                TodaySales = todaySales,
+                MonthlySales = monthlySales,
                 RevenueChartLabels = GetLast7DaysLabels(),
                 RevenueChartData = await GetLast7DaysData(),
-
-                // Low Stock Products (Recipes se)
-                LowStockProducts = await _context.Recipes
-                    .Where(r => r.IsFree == false)  // Premium recipes
-                    .Select(r => new LowStockProductDto
-                    {
-                        Name = r.Name,
-                        StockQuantity = 0,  // Recipes don't have stock, use boolean
-                        LowStockThreshold = 0
-                    })
-                    .Take(5)
-                    .ToListAsync(),
-
-                // Top Selling Products (Orders se)
-                TopSellingProducts = await _context.Orders
-                    .GroupBy(o => o.BookId)
-                    .Select(g => new TopSellingProductDto
-                    {
-                        ProductName = _context.Books.Where(b => b.Id == g.Key).Select(b => b.Title).FirstOrDefault() ?? "Unknown",
-                        TotalSold = g.Count(),
-                        Revenue = g.Sum(o => o.TotalAmount)
-                    })
-                    .OrderByDescending(x => x.TotalSold)
-                    .Take(5)
-                    .ToListAsync()
+                LowStockProducts = lowStockProducts,
+                TopSellingProducts = topSellingProducts
             };
 
             // Calculate Progress Percent
@@ -71,7 +81,7 @@ namespace Ice_Cream_Parlour_Eproject.Areas.Admin.Controllers
                 var maxSold = model.TopSellingProducts.Max(x => x.TotalSold);
                 foreach (var item in model.TopSellingProducts)
                 {
-                    item.ProgressPercent = maxSold > 0 ? (int)((double)item.TotalSold / maxSold * 100) : 0;  // ✅ int me convert
+                    item.ProgressPercent = maxSold > 0 ? (int)((double)item.TotalSold / maxSold * 100) : 0;
                 } 
             }
 
@@ -92,9 +102,10 @@ namespace Ice_Cream_Parlour_Eproject.Areas.Admin.Controllers
             for (int i = 6; i >= 0; i--)
             {
                 var date = DateTime.Today.AddDays(-i);
-                var total = await _context.Orders
+                var total = (await _context.Orders
                     .Where(o => o.OrderDate.Date == date.Date)
-                    .SumAsync(o => o.TotalAmount);
+                    .Select(o => o.TotalAmount)
+                    .ToListAsync()).Sum();
                 data.Add(total);
             }
             return data;
