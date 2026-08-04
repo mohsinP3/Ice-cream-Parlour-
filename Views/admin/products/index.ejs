@@ -1,0 +1,74 @@
+<%- include('../partials/admin_header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold m-0"><i class="fas fa-ice-cream text-primary me-2"></i>Product Catalog Management</h4>
+    <a href="/admin/products/create" class="btn btn-primary rounded-pill px-4 text-white fw-bold shadow-sm" style="background: linear-gradient(135deg, #F195B2, #62C3E7); border:none;">
+        <i class="fas fa-plus-circle me-1"></i> Add New Product
+    </a>
+</div>
+
+<div class="bg-white rounded-4 shadow-sm border p-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(p => { %>
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="<%= p.imagePath %>" class="rounded-3 me-3" style="width: 50px; height: 50px; object-fit: cover;" alt="<%= p.name %>" />
+                                <div>
+                                    <h6 class="fw-bold mb-0"><%= p.name %></h6>
+                                    <small class="text-muted"><%= p.productCode %></small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-light text-primary border rounded-pill px-3 py-1"><%= p.categoryName %></span></td>
+                        <td class="fw-bold">$<%= p.price.toFixed(2) %></td>
+                        <td>
+                            <% if (p.discountPercent > 0) { %>
+                                <span class="badge bg-danger rounded-pill"><%= p.discountPercent %>% OFF</span>
+                            <% } else { %>
+                                <span class="text-muted small">None</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (p.stockQuantity <= 0) { %>
+                                <span class="badge bg-danger rounded-pill">0 (Out)</span>
+                            <% } else if (p.stockQuantity <= p.lowStockThreshold) { %>
+                                <span class="badge bg-warning text-dark rounded-pill"><%= p.stockQuantity %> (Low)</span>
+                            <% } else { %>
+                                <span class="badge bg-success rounded-pill"><%= p.stockQuantity %> in stock</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (p.status === 'Active') { %>
+                                <span class="badge bg-success rounded-pill">Active</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary rounded-pill">Inactive</span>
+                            <% } %>
+                        </td>
+                        <td class="text-end">
+                            <a href="/admin/products/edit/<%= p.id %>" class="btn btn-sm btn-outline-primary rounded-circle p-2 me-1" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            <form action="/admin/products/delete/<%= p.id %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../partials/admin_footer') %>

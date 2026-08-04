@@ -1,0 +1,102 @@
+@using Ice_Cream_Parlour_Eproject.Areas.Models.Enums
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@model OrderCreateViewModel
+
+
+@{
+    ViewData["Title"] = "New Order";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div><h2>Create New Order</h2><p>Add products and assign to a customer</p></div>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="form-card">
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="CustomerId" class="form-label">Customer</label>
+                        <select asp-for="CustomerId" class="form-select form-control-custom">
+                            <option value="">Select Customer</option>
+                            @foreach (var c in Model.Customers) 
+                                    {
+                                <option value="@c.Id">@c.FullName (@c.Email)</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="PaymentMethod" class="form-label">Payment Method</label>
+                        <select asp-for="PaymentMethod" class="form-select form-control-custom" asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Notes" class="form-label">Notes</label>
+                        <input asp-for="Notes" class="form-control form-control-custom" />
+                    </div>
+                </div>
+
+                <h5 class="mb-3">Order Items</h5>
+                <div id="orderLines">
+                    @for (int i = 0; i < Model.Lines.Count; i++)
+                    {
+                        <div class="row order-line mb-2 align-items-end">
+                            <div class="col-md-7">
+                                <label class="form-label">Product</label>
+                                <select name="Lines[@i].ProductId" class="form-select form-control-custom">
+                                    <option value="0">Select Product</option>
+                                    @foreach (var p in Model.Products)
+                                    {
+                                        <option value="@p.Id">@p.Name - $@p.FinalPrice.ToString("N2") (Stock: @p.StockQuantity)</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Quantity</label>
+                                <input name="Lines[@i].Quantity" type="number" min="1" value="@Model.Lines[i].Quantity" class="form-control form-control-custom" />
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-danger remove-order-line w-100"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="button" id="addOrderLine" class="btn btn-outline-primary btn-sm mt-2"><i class="fas fa-plus me-1"></i>Add Item</button>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary-custom"><i class="fas fa-check me-2"></i>Create Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/template" id="orderLineTemplate">
+    <div class="row order-line mb-2 align-items-end">
+        <div class="col-md-7">
+            <label class="form-label">Product</label>
+            <select name="Lines[0].ProductId" class="form-select form-control-custom">
+                <option value="0">Select Product</option>
+                @foreach (var p in Model.Products)
+                {
+                    <option value="@p.Id">@p.Name - $@p.FinalPrice.ToString("N2")</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Quantity</label>
+            <input name="Lines[0].Quantity" type="number" min="1" value="1" class="form-control form-control-custom" />
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-danger remove-order-line w-100"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+</script>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

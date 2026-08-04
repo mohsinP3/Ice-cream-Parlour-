@@ -1,0 +1,105 @@
+@using Ice_Cream_Parlour_Eproject.Areas.Models.Enums
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@model OrderViewModel
+
+@{
+    ViewData["Title"] = $"Order {Model.OrderNumber}";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header no-print">
+    <div>
+        <h2>Order @Model.OrderNumber</h2>
+        <p>Placed on @Model.OrderDate.ToString("dddd, dd MMMM yyyy HH:mm")</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Invoice" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="fas fa-file-invoice me-2"></i>Invoice</a>
+        <a asp-action="ExportPdf" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="fas fa-file-pdf me-2"></i>Export PDF</a>
+        <a asp-action="Index" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="table-card mb-4">
+            <div class="table-header"><h5>Order Items</h5></div>
+            <div class="table-responsive">
+                <table class="table table-premium mb-0">
+                    <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>$@item.UnitPrice.ToString("N2")</td>
+                                <td>$@item.LineTotal.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr><td colspan="3" class="text-end">Subtotal</td><td>$@Model.SubTotal.ToString("N2")</td></tr>
+                        <tr><td colspan="3" class="text-end">Tax</td><td>$@Model.TaxAmount.ToString("N2")</td></tr>
+                        <tr><td colspan="3" class="text-end"><strong>Total</strong></td><td><strong>$@Model.TotalAmount.ToString("N2")</strong></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header"><h5><i class="fas fa-history me-2"></i>Order History</h5></div>
+            <div class="p-3">
+                @foreach (var h in Model.History)
+                {
+                    <div class="d-flex gap-3 mb-3 pb-3 border-bottom">
+                        <div class="stat-icon pink" style="width:36px;height:36px;font-size:0.8rem"><i class="fas fa-circle"></i></div>
+                        <div>
+                            <strong>@h.Status</strong>
+                            @if (!string.IsNullOrEmpty(h.Notes)) { <p class="mb-0 text-muted small">@h.Notes</p> }
+                            <small class="text-muted">@h.ChangedAt.ToString("dd MMM yyyy HH:mm") · @(h.ChangedBy ?? "System")</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="glass-card mb-4">
+            <h5 class="mb-3">Customer</h5>
+            <p class="mb-1"><strong>@Model.CustomerName</strong></p>
+            <p class="text-muted mb-0">Customer ID: #@Model.CustomerId</p>
+        </div>
+
+        <div class="form-card no-print">
+            <h5 class="mb-3">Update Status</h5>
+            <form asp-action="UpdateStatus" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="mb-3">
+                    <label class="form-label">Order Status</label>
+                    <select name="orderStatus" class="form-select form-control-custom">
+                        @foreach (var s in Enum.GetValues<OrderStatus>())
+                        {
+                            <option value="@s" selected="@(Model.OrderStatus == s.ToString())">@s</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Payment Status</label>
+                    <select name="paymentStatus" class="form-select form-control-custom">
+                        @foreach (var s in Enum.GetValues<PaymentStatus>())
+                        {
+                            <option value="@s" selected="@(Model.PaymentStatus == s.ToString())">@s</option>
+                        }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Notes</label>
+                    <textarea name="notes" class="form-control form-control-custom" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary-custom w-100">Update Status</button>
+            </form>
+        </div>
+    </div>
+</div>

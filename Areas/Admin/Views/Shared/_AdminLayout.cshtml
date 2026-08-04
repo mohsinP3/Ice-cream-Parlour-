@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - iCREAM Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/components.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+</head>
+<body class="admin-body">
+    <div class="page-loader" id="pageLoader"><div class="spinner"></div></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon"><i class="fas fa-ice-cream"></i></span>
+            <div>
+                <h1>iCREAM</h1>
+                <small>Management System</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")">
+                <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Customers" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Customers" ? "active" : "")">
+                <i class="fas fa-users"></i><span>Customers</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")">
+                <i class="fas fa-tags"></i><span>Categories</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")">
+                <i class="fas fa-box"></i><span>Products</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Orders" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Orders" ? "active" : "")">
+                <i class="fas fa-shopping-cart"></i><span>Orders</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Books" asp-action="Index"class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Books" ? "active" : "")">
+                <i class="fas fa-book"></i><span>Books</span>
+            </a>
+            <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reports" ? "active" : "")">
+                <i class="fas fa-file-alt"></i><span>Reports</span>
+            </a>
+            <div class="nav-divider"></div>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" target="_blank">
+                <i class="fas fa-globe"></i><span>Public Site</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <button class="sidebar-toggle" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
+            <div class="navbar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search..." id="globalSearch" />
+            </div>
+            <div class="navbar-actions">
+                <div class="dropdown">
+                    <button class="user-menu" data-bs-toggle="dropdown">
+                        <div class="user-avatar"><i class="fas fa-user"></i></div>
+                        <span>@User.Identity?.Name</span>
+                        <i class="fas fa-chevron-down ms-1"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            @if (TempData["Success"] != null)
+            {
+                <div class="toast-alert toast-success" data-toast="success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="toast-alert toast-error" data-toast="error">@TempData["Error"]</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+   
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

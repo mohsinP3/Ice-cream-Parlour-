@@ -1,0 +1,73 @@
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@using Ice_Cream_Parlour_Eproject.Models
+@model OrderViewModel
+@{
+    ViewData["Title"] = $"Invoice - {Model.OrderNumber}";
+    Layout = "_AdminLayout";
+
+}
+
+<div class="no-print mb-3 d-flex gap-2">
+    <button id="printInvoice" class="btn btn-primary-custom"><i class="fas fa-print me-2"></i>Print Invoice</button>
+    <a asp-action="ExportPdf" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="fas fa-file-pdf me-2"></i>Download PDF</a>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back</a>
+</div>
+
+<div class="invoice-container">
+    <div class="invoice-header">
+        <div class="invoice-logo">
+            <h2>iCREAM</h2>
+            <p class="text-muted">123 Ice Cream Street, New York, NY 10001<br>+1 (012) 345 6789 · info@icream.com</p>
+        </div>
+        <div class="invoice-meta">
+            <h4>INVOICE</h4>
+            <p><strong>@Model.OrderNumber</strong></p>
+            <p>Date: @Model.OrderDate.ToString("dd MMM yyyy")</p>
+            <span class="badge-status badge-@Model.PaymentStatus.ToString().ToLower()">@Model.PaymentStatus</span>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-6">
+            <h6 class="text-muted text-uppercase small">Bill To</h6>
+            <p><strong>@Model.CustomerName</strong></p>
+        </div>
+        <div class="col-6 text-end">
+            <h6 class="text-muted text-uppercase small">Payment Method</h6>
+            <p>@Model.PaymentMethod</p>
+        </div>
+    </div>
+
+    <table class="table table-premium">
+        <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.UnitPrice.ToString("N2")</td>
+                    <td>$@item.LineTotal.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mt-4">
+        <p>Subtotal: $@Model.SubTotal.ToString("N2")</p>
+        <p>Tax (8%): $@Model.TaxAmount.ToString("N2")</p>
+        @if (Model.DiscountAmount > 0) { <p>Discount: -$@Model.DiscountAmount.ToString("N2")</p> }
+        <h4>Total: $@Model.TotalAmount.ToString("N2")</h4>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Notes))
+    {
+        <div class="mt-4 p-3 bg-light rounded">
+            <strong>Notes:</strong> @Model.Notes
+        </div>
+    }
+
+    <div class="text-center mt-5 text-muted small">
+        <p>Thank you for choosing iCREAM! 🍦</p>
+    </div>
+</div>

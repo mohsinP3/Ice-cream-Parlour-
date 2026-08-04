@@ -1,0 +1,6 @@
+{
+  "name": "iCREAM Ice Cream Parlour",
+  "description": "An online Ice Cream Parlour application featuring product catalog, recipe guides, book reservations, customer feedback, cart & checkout, order history, and a full admin management dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

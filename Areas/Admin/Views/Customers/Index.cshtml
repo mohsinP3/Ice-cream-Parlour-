@@ -1,0 +1,100 @@
+@using Ice_Cream_Parlour_Eproject.Models
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@model CustomerListViewModel
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div class="page-header">
+    <div>
+        <h2>Customer Management</h2>
+        <p>Manage your customer database</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary-custom"><i class="fas fa-plus me-2"></i>Add Customer</a>
+</div>
+
+<div class="table-card">
+    <div class="table-header">
+        <form method="get" class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" name="search" value="@Model.SearchTerm" placeholder="Search customers..." />
+        </form>
+        <div class="d-flex gap-2">
+            <select name="sortBy" class="form-select form-select-sm" style="width:auto" onchange="this.form.submit()" form="sortForm">
+                <option value="name" selected="@(Model.SortBy == "name")">Name</option>
+                <option value="email" selected="@(Model.SortBy == "email")">Email</option>
+                <option value="date" selected="@(Model.SortBy == "date")">Date</option>
+            </select>
+            <form id="sortForm" method="get">
+                <input type="hidden" name="search" value="@Model.SearchTerm" />
+                <input type="hidden" name="sortBy" id="sortByHidden" />
+                <input type="hidden" name="sortDir" value="@(Model.SortDir == "asc" ? "desc" : "asc")" />
+            </form>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-premium mb-0">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Orders</th>
+                    <th>Total Spent</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Customers.Items)
+                {
+                    <tr>
+                        <td data-label="Customer">
+                            <div class="d-flex align-items-center gap-2">
+                                @if (!string.IsNullOrEmpty(c.ProfileImagePath))
+                                {
+                                    <img src="@c.ProfileImagePath" class="avatar" alt="@c.FullName" />
+                                }
+                                else
+                                {
+                                    <div class="avatar-placeholder">@c.FullName.Substring(0, 1)</div>
+                                }
+                                <strong>@c.FullName</strong>
+                            </div>
+                        </td>
+                        <td data-label="Email">@c.Email</td>
+                        <td data-label="Phone">@(c.Phone ?? "-")</td>
+                        <td data-label="Orders">@c.TotalOrders</td>
+                        <td data-label="Spent">$@c.TotalSpent.ToString("N2")</td>
+                        <td data-label="Status">
+                            <span class="badge-status @(c.IsActive ? "badge-active" : "badge-inactive")">@(c.IsActive ? "Active" : "Inactive")</span>
+                        </td>
+                        <td data-label="Actions">
+                            <a asp-action="Details" asp-route-id="@c.Id" class="btn-action view" title="View"><i class="fas fa-eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@c.Id" class="btn-action edit" title="Edit"><i class="fas fa-edit"></i></a>
+                            <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn-action delete" data-confirm-delete="Delete this customer?" title="Delete"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.Customers.TotalPages > 1)
+    {
+        <div class="p-3">
+            <nav>
+                <ul class="pagination pagination-custom justify-content-center mb-0">
+                    @for (int i = 1; i <= Model.Customers.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.Customers.Page ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@Model.SearchTerm" asp-route-sortBy="@Model.SortBy" asp-route-sortDir="@Model.SortDir">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

@@ -1,0 +1,85 @@
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@using Ice_Cream_Parlour_Eproject.Models
+@model ReportViewModel
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+    
+<div class="page-header">
+    <div>
+        <h2>Sales Reports</h2>
+        <p>Analyze business performance across different periods</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="ExportPdf" asp-route-reportType="@Model.ReportType" asp-route-startDate="@Model.StartDate?.ToString("yyyy-MM-dd")" asp-route-endDate="@Model.EndDate?.ToString("yyyy-MM-dd")" class="btn btn-outline-danger"><i class="fas fa-file-pdf me-2"></i>Export PDF</a>
+        <a asp-action="ExportExcel" asp-route-reportType="@Model.ReportType" asp-route-startDate="@Model.StartDate?.ToString("yyyy-MM-dd")" asp-route-endDate="@Model.EndDate?.ToString("yyyy-MM-dd")" class="btn btn-outline-success"><i class="fas fa-file-excel me-2"></i>Export Excel</a>
+    </div>
+</div>
+
+<div class="glass-card mb-4">
+    <form id="reportForm" method="get" class="d-flex flex-wrap gap-2 align-items-center">
+        <input type="hidden" name="reportType" id="reportType" value="@Model.ReportType" />
+        <a href="#" class="btn btn-sm report-tab @(Model.ReportType == "daily" ? "btn-primary" : "btn-outline-secondary")" data-type="daily">Daily</a>
+        <a href="#" class="btn btn-sm report-tab @(Model.ReportType == "weekly" ? "btn-primary" : "btn-outline-secondary")" data-type="weekly">Weekly</a>
+        <a href="#" class="btn btn-sm report-tab @(Model.ReportType == "monthly" ? "btn-primary" : "btn-outline-secondary")" data-type="monthly">Monthly</a>
+        <a href="#" class="btn btn-sm report-tab @(Model.ReportType == "yearly" ? "btn-primary" : "btn-outline-secondary")" data-type="yearly">Yearly</a>
+        <div class="ms-auto d-flex gap-2">
+            <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+            <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+            <button type="submit" class="btn btn-sm btn-primary-custom">Apply</button>
+        </div>
+    </form>
+</div>
+
+<div class="stats-grid mb-4">
+    <div class="stat-card"><div class="stat-icon pink"><i class="fas fa-shopping-bag"></i></div><div class="stat-info"><h3>@Model.TotalOrders</h3><p>Total Orders</p></div></div>
+    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div><div class="stat-info"><h3>$@Model.TotalRevenue.ToString("N0")</h3><p>Total Revenue</p></div></div>
+    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-chart-bar"></i></div><div class="stat-info"><h3>$@Model.AverageOrderValue.ToString("N2")</h3><p>Avg Order Value</p></div></div>
+    <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-box"></i></div><div class="stat-info"><h3>@Model.TotalItemsSold</h3><p>Items Sold</p></div></div>
+</div>
+
+<div class="chart-card mb-4">
+    <h5>Sales Breakdown</h5>
+    <div class="chart-container"><canvas id="reportChart"></canvas></div>
+</div>
+
+<div class="table-card">
+    <div class="table-header"><h5>Recent Orders in Period</h5></div>
+    <div class="table-responsive">
+        <table class="table table-premium mb-0">
+            <thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody>
+                @foreach (var o in Model.RecentOrders)
+                {
+                    <tr>
+                        <td>@o.OrderNumber</td>
+                        <td>@o.CustomerName</td>
+                        <td>@o.OrderDate.ToString("dd MMM yyyy")</td>
+                        <td>$@o.TotalAmount.ToString("N2")</td>
+                        <td><span class="badge-status badge-@o.OrderStatus.ToString().ToLower()">@o.OrderStatus</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/js/admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const reportCanvas = document.getElementById("reportChart");
+
+    if (reportCanvas) {
+    new Chart(reportCanvas, {
+    type: "bar",
+    data: {
+    labels: ["Jan","Feb","Mar","Apr","May"],
+    datasets: [{
+    label: "Sales",
+    data: [1200, 1800, 1500, 2400, 2100],
+    borderWidth: 1
+    }]
+    }
+    });
+    }
+</script>

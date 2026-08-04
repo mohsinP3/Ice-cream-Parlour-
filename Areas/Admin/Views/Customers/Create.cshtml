@@ -1,0 +1,74 @@
+@using Ice_Cream_Parlour_Eproject.Models
+@using Ice_Cream_Parlour_Eproject.Areas.Models.ViewModels
+@model CustomerViewModel
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Add Customer" : "Edit Customer";
+    var isEdit = Model.Id > 0;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div>
+        <h2>@(isEdit ? "Edit Customer" : "Add Customer")</h2>
+        <p>@(isEdit ? "Update customer information" : "Create a new customer record")</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="form-card">
+            <form asp-action="@(isEdit ? "Edit" : "Create")" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @if (isEdit) { <input type="hidden" asp-for="Id" /> }
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control form-control-custom" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control form-control-custom" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control form-control-custom" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ProfileImage" class="form-label">Profile Image</label>
+                        <input asp-for="ProfileImage" type="file" accept="image/*" class="form-control form-control-custom" data-image-preview="#imagePreview" />
+                        <div id="imagePreview" class="image-preview-grid">
+                            @if (!string.IsNullOrEmpty(Model.ProfileImagePath))
+                            {
+                                <div class="image-preview-item"><img src="@Model.ProfileImagePath" alt="Current" /></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label asp-for="Address" class="form-label"></label>
+                        <textarea asp-for="Address" class="form-control form-control-custom" rows="2"></textarea>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check">
+                            <input asp-for="IsActive" class="form-check-input" />
+                            <label asp-for="IsActive" class="form-check-label">Active Customer</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary-custom">
+                    <i class="fas fa-save me-2"></i>@(isEdit ? "Update Customer" : "Create Customer")
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

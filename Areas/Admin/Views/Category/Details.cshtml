@@ -1,0 +1,53 @@
+@model Ice_Cream_Parlour_Eproject.Areas.Models.Category
+@{
+    ViewData["Title"] = "Category Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Category Details</h2>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="fas fa-edit me-2"></i>Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Id)</dt>
+                        <dd class="col-sm-8">@Model.Id</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Name)</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Description)</dt>
+                        <dd class="col-sm-8">@(Model.Description ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.IsActive)</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.CreatedDate)</dt>
+                        <dd class="col-sm-8">@Model.CreatedDate.ToString("dd-MMM-yyyy HH:mm")</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
