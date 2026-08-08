@@ -1,6 +1,8 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Contact Us - iCREAM";
+    ViewData["Title"] = "Contact iCREAM - Customer Support, Address & Map";
+    ViewData["MetaDescription"] = "Have a question or looking to host a premium ice cream party? Reach out to the iCREAM help desk. Visit our Karachi parlor, email us, or call us directly.";
+    ViewData["MetaKeywords"] = "contact ice cream parlour, customer support, ice cream street karachi, map directions, catering support, feed back";
 }
 
 <!-- Contact Section Start -->
@@ -147,8 +149,6 @@
     </div>
 </div>
 <!-- Contact Section End -->
-<!-- Back to Top -->
-<a href="#" class="btn btn-secondary px-2 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 @section Scripts {
     <script>
@@ -266,19 +266,5 @@
             });
         });
 
-        // ===== BACK TO TOP =====
-        const backToTop = document.querySelector('.back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('show');
-            } else {
-                backToTop.classList.remove('show');
-            }
-        });
-
-        backToTop.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
     </script>
 }

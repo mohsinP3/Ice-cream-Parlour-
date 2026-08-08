@@ -34,9 +34,49 @@ html { scroll-behavior: smooth; }
 body {
     font-family: var(--font-main);
     color: var(--dark);
-    background: var(--gray-100);
+    background: #f8fafc;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+}
+
+/* Premium Navigation & Hover effects */
+.navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar .nav-link {
+    color: #475569 !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 1.25rem !important;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #F195B2, #62C3E7);
+    border-radius: 50px;
+    transition: width 0.3s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #e84393 !important;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link.active::after {
+    width: 25px;
 }
 
 h1, h2, h3, h4, h5, h6 {

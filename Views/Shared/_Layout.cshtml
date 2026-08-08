@@ -50,7 +50,27 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - iCREAM</title>
+    <title>@ViewData["Title"] - iCREAM Premium Ice Cream Parlour</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@(ViewData["MetaDescription"] ?? "Discover iCREAM, the ultimate premium artisan ice cream parlour since 1950. Taste our delicious traditional & organic ice cream recipes, custom orders, and gourmet flavors.")" />
+    <meta name="keywords" content="@(ViewData["MetaKeywords"] ?? "ice cream, organic ice cream, artisan recipes, delicious dessert, chocolate ice cream, vanilla flavour, ice cream parlour, iCREAM")" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://icream.com" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewData["Title"] - iCREAM Premium Ice Cream" />
+    <meta property="og:description" content="@(ViewData["MetaDescription"] ?? "Indulge in our exquisite artisan ice cream recipes. Handcrafted traditional recipes made with 100% organic milk.")" />
+    <meta property="og:image" content="https://icream.com/img/carousel-1.jpg" />
+    <meta property="og:url" content="https://icream.com" />
+    <meta property="og:site_name" content="iCREAM" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@ViewData["Title"] - iCREAM Premium Ice Cream" />
+    <meta name="twitter:description" content="@(ViewData["MetaDescription"] ?? "Indulge in our exquisite artisan ice cream recipes. Handcrafted traditional recipes made with 100% organic milk.")" />
+    <meta name="twitter:image" content="https://icream.com/img/carousel-1.jpg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
