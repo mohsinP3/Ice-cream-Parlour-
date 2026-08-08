@@ -27,12 +27,210 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     transition: var(--transition);
     animation: fadeInUp 0.5s ease forwards;
 }
 
-.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(241,149,178,0.12); }
+
+/* Premium Front-facing Product Cards */
+.product-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0,0,0,0.03);
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(241,149,178,0.15);
+    border-color: rgba(241,149,178,0.25);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    padding-top: 85%;
+    background: #fdfaf6;
+}
+
+.product-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08);
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #F195B2, #e07a9e);
+    color: #ffffff;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50px;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(241,149,178,0.3);
+}
+
+.product-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+    font-family: var(--font-main);
+    transition: color 0.3s;
+}
+
+.product-card:hover .product-title {
+    color: #e84393;
+}
+
+.product-description {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    margin-top: auto;
+}
+
+.current-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #2e7d32;
+}
+
+.old-price {
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    color: #94a3b8;
+}
+
+.btn-order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #F195B2, #62C3E7);
+    color: #ffffff !important;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(241,149,178,0.25);
+}
+
+.btn-order:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(241,149,178,0.4);
+    background: linear-gradient(135deg, #e07a9e, #4aafd4);
+}
+
+/* Service Cards Refined */
+.service-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.02) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #F195B2, #62C3E7);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(98,195,231,0.12);
+}
+
+.service-card:hover::after {
+    transform: scaleX(1);
+}
+
+.service-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fff2f6, #f0fafd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #e84393;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(241,149,178,0.08);
+}
+
+.service-card:hover .service-icon {
+    background: linear-gradient(135deg, #F195B2, #62C3E7);
+    color: #ffffff;
+    transform: rotate(360deg);
+}
+
+/* Testimonial Premium Cards */
+.testimonial-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.02) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02) !important;
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05) !important;
+}
+
+.quote-icon {
+    color: #F195B2;
+    font-size: 1.8rem;
+    opacity: 0.35;
+}
 
 .stat-icon {
     width: 56px;

@@ -748,3 +748,124 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       SELECT "o"."TotalAmount"
       FROM "Orders" AS "o"
       WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@__normalizedUserName_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__user_Id_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ClaimType", "a"."ClaimValue", "a"."UserId"
+      FROM "AspNetUserClaims" AS "a"
+      WHERE "a"."UserId" = @__user_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a0"."Name"
+      FROM "AspNetUserRoles" AS "a"
+      INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+      WHERE "a"."UserId" = @__userId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__role_Id_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."ClaimType", "a"."ClaimValue"
+      FROM "AspNetRoleClaims" AS "a"
+      WHERE "a"."RoleId" = @__role_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (Size = 36), @__p_1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."UserId", "a"."RoleId"
+      FROM "AspNetUserRoles" AS "a"
+      WHERE "a"."UserId" = @__p_0 AND "a"."RoleId" = @__p_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime', 'start of day', 'start of day'), '0'), '.')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE CAST(strftime('%m', "o"."OrderDate") AS INTEGER) = CAST(strftime('%m', 'now', 'localtime') AS INTEGER) AND CAST(strftime('%Y', "o"."OrderDate") AS INTEGER) = CAST(strftime('%Y', 'now', 'localtime') AS INTEGER)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Name", "p"."StockQuantity", "p"."LowStockThreshold", CASE
+          WHEN "p"."LowStockThreshold" > 0 THEN CAST((CAST("p"."StockQuantity" AS REAL) / CAST("p"."LowStockThreshold" AS REAL)) * 100.0 AS INTEGER)
+          ELSE 0
+      END AS "StockPercent"
+      FROM "Products" AS "p"
+      WHERE "p"."StockQuantity" <= "p"."LowStockThreshold"
+      LIMIT @__p_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o0"."ProductId", "o0"."ProductName", "o0"."Quantity", "o0"."UnitPrice"
+      FROM "Orders" AS "o"
+      INNER JOIN "OrderItems" AS "o0" ON "o"."Id" = "o0"."OrderId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Orders" AS "o"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Customers" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
