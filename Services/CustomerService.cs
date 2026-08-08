@@ -30,23 +30,25 @@ namespace Ice_Cream_Parlour_Eproject.Services
             };
 
             var total = await query.CountAsync();
-            var items = await query
+            var customers = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(c => new CustomerViewModel
-                {
-                    Id = c.Id,
-                    FullName = c.FullName,
-                    Email = c.Email,
-                    Phone = c.Phone,
-                    Address = c.Address,
-                    ProfileImagePath = c.ProfileImagePath,
-                    IsActive = c.IsActive,
-                    CreatedAt = c.CreatedAt,
-                    TotalOrders = c.Orders.Count,
-                    TotalSpent = c.Orders.Sum(o => o.TotalAmount)
-                })
+                .Include(c => c.Orders)
                 .ToListAsync();
+
+            var items = customers.Select(c => new CustomerViewModel
+            {
+                Id = c.Id,
+                FullName = c.FullName,
+                Email = c.Email,
+                Phone = c.Phone,
+                Address = c.Address,
+                ProfileImagePath = c.ProfileImagePath,
+                IsActive = c.IsActive,
+                CreatedAt = c.CreatedAt,
+                TotalOrders = c.Orders.Count,
+                TotalSpent = c.Orders.Sum(o => o.TotalAmount)
+            }).ToList();
 
             return new CustomerListViewModel
             {

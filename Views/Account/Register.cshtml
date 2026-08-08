@@ -199,7 +199,10 @@
         <form asp-action="Register" method="post" style="margin-top:1.5rem;">
             @Html.AntiForgeryToken()
 
-            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="validation-summary"></div>
+            }
 
             <!-- Full Name -->
             <div class="form-group">

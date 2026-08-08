@@ -20,32 +20,38 @@ namespace Ice_Cream_Parlour_Eproject.Services
 
             var query = _context.Orders.Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate);
 
+            var totalRevenue = (await query.Select(o => o.TotalAmount).ToListAsync()).Sum();
+            var totalOrders = await query.CountAsync();
+
+            var recentOrders = await query.OrderByDescending(o => o.OrderDate).Take(10)
+                .Select(o => new OrderReportDto
+                {
+                    Id = o.Id,
+                    OrderNumber = o.OrderNumber,
+                    CustomerName = o.CustomerName,
+                    OrderDate = o.OrderDate,
+                    TotalAmount = o.TotalAmount,
+                    OrderStatus = o.OrderStatus,
+                    PaymentStatus = o.PaymentStatus
+                }).ToListAsync();
+
             var model = new ReportViewModel
             {
                 ReportType = reportType,
                 StartDate = startDate,
                 EndDate = endDate,
-                TotalOrders = await query.CountAsync(),
-                TotalRevenue = await query.SumAsync(o => o.TotalAmount),
-                RecentOrders = await query.OrderByDescending(o => o.OrderDate).Take(10)
-                    .Select(o => new OrderReportDto
-                    {
-                        Id = o.Id,
-                        OrderNumber = o.OrderNumber,
-                        CustomerName = o.CustomerName,
-                        OrderDate = o.OrderDate,
-                        TotalAmount = o.TotalAmount,
-                        OrderStatus = o.OrderStatus,
-                        PaymentStatus = o.PaymentStatus
-                    }).ToListAsync()
+                TotalOrders = totalOrders,
+                TotalRevenue = totalRevenue,
+                RecentOrders = recentOrders
             };
 
             model.AverageOrderValue = model.TotalOrders > 0 ? model.TotalRevenue / model.TotalOrders : 0;
 
-            // Chart Data
-            var chartData = await query.GroupBy(o => o.OrderDate.Date)
+            // Chart Data via LINQ to Objects
+            var ordersInPeriod = await query.Select(o => new { o.OrderDate, o.TotalAmount }).ToListAsync();
+            var chartData = ordersInPeriod.GroupBy(o => o.OrderDate.Date)
                 .Select(g => new { Date = g.Key, Total = g.Sum(o => o.TotalAmount) })
-                .OrderBy(g => g.Date).Take(7).ToListAsync();
+                .OrderBy(g => g.Date).Take(7).ToList();
 
             model.ChartLabels = chartData.Select(d => d.Date.ToString("dd MMM")).ToList();
             model.ChartData = chartData.Select(d => d.Total).ToList();

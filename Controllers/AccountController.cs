@@ -43,7 +43,16 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return await RedirectToLocal(returnUrl);
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Invalid login attempt.");
             }
@@ -60,13 +69,20 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel model)
         {
+            if (model.Email != null && model.Email.ToLower().Contains("admin"))
+            {
+                ModelState.AddModelError("Email", "Public registration of Admin accounts is not allowed.");
+                return View(model);
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new User
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    FullName = model.FullName
+                    FullName = model.FullName,
+                    CreatedAt = DateTime.Now
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

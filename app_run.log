@@ -1,0 +1,750 @@
+Using launch settings from /app/Properties/launchSettings.json...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      PRAGMA journal_mode = 'wal';
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "__EFMigrationsHistory" (
+          "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+          "ProductVersion" TEXT NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "MigrationId", "ProductVersion"
+      FROM "__EFMigrationsHistory"
+      ORDER BY "MigrationId";
+info: Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20260804205035_InitialCreateSqlite'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetRoles" (
+          "Id" TEXT NOT NULL CONSTRAINT "PK_AspNetRoles" PRIMARY KEY,
+          "Name" TEXT NULL,
+          "NormalizedName" TEXT NULL,
+          "ConcurrencyStamp" TEXT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetUsers" (
+          "Id" TEXT NOT NULL CONSTRAINT "PK_AspNetUsers" PRIMARY KEY,
+          "FullName" TEXT NULL,
+          "Address" TEXT NULL,
+          "PaymentType" TEXT NULL,
+          "PaymentDate" TEXT NULL,
+          "PaymentExpiry" TEXT NULL,
+          "IsPaid" INTEGER NOT NULL,
+          "CreatedAt" TEXT NOT NULL,
+          "ProfilePicture" TEXT NULL,
+          "UserName" TEXT NULL,
+          "NormalizedUserName" TEXT NULL,
+          "Email" TEXT NULL,
+          "NormalizedEmail" TEXT NULL,
+          "EmailConfirmed" INTEGER NOT NULL,
+          "PasswordHash" TEXT NULL,
+          "SecurityStamp" TEXT NULL,
+          "ConcurrencyStamp" TEXT NULL,
+          "PhoneNumber" TEXT NULL,
+          "PhoneNumberConfirmed" INTEGER NOT NULL,
+          "TwoFactorEnabled" INTEGER NOT NULL,
+          "LockoutEnd" TEXT NULL,
+          "LockoutEnabled" INTEGER NOT NULL,
+          "AccessFailedCount" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Books" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Books" PRIMARY KEY AUTOINCREMENT,
+          "Title" TEXT NOT NULL,
+          "Author" TEXT NOT NULL,
+          "Description" TEXT NOT NULL,
+          "Price" TEXT NOT NULL,
+          "ImagePath" TEXT NULL,
+          "StockQuantity" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Categories" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Categories" PRIMARY KEY AUTOINCREMENT,
+          "Name" TEXT NOT NULL,
+          "Description" TEXT NULL,
+          "IsActive" INTEGER NOT NULL,
+          "CreatedDate" TEXT NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Customers" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Customers" PRIMARY KEY AUTOINCREMENT,
+          "FullName" TEXT NOT NULL,
+          "Email" TEXT NOT NULL,
+          "Phone" TEXT NULL,
+          "Address" TEXT NULL,
+          "ProfileImagePath" TEXT NULL,
+          "IsActive" INTEGER NOT NULL,
+          "CreatedAt" TEXT NOT NULL,
+          "LastActivityDate" TEXT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Feedbacks" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Feedbacks" PRIMARY KEY AUTOINCREMENT,
+          "UserId" TEXT NULL,
+          "UserName" TEXT NOT NULL,
+          "Email" TEXT NOT NULL,
+          "Message" TEXT NOT NULL,
+          "Rating" INTEGER NOT NULL,
+          "SubmittedDate" TEXT NOT NULL,
+          "IsRegistered" INTEGER NOT NULL,
+          "IsRead" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Recipes" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Recipes" PRIMARY KEY AUTOINCREMENT,
+          "Name" TEXT NOT NULL,
+          "Category" TEXT NOT NULL,
+          "Ingredients" TEXT NOT NULL,
+          "Procedure" TEXT NOT NULL,
+          "ImagePath" TEXT NULL,
+          "IsFree" INTEGER NOT NULL,
+          "CreatedDate" TEXT NOT NULL,
+          "Price" TEXT NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "UserRecipes" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_UserRecipes" PRIMARY KEY AUTOINCREMENT,
+          "UserId" TEXT NOT NULL,
+          "UserName" TEXT NOT NULL,
+          "RecipeName" TEXT NOT NULL,
+          "Ingredients" TEXT NOT NULL,
+          "Procedure" TEXT NOT NULL,
+          "ImagePath" TEXT NULL,
+          "SubmittedDate" TEXT NOT NULL,
+          "Status" TEXT NOT NULL,
+          "PrizeMoney" TEXT NULL,
+          "IsCertificateIssued" INTEGER NOT NULL,
+          "ReviewedDate" TEXT NULL,
+          "AdminRemarks" TEXT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetRoleClaims" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_AspNetRoleClaims" PRIMARY KEY AUTOINCREMENT,
+          "RoleId" TEXT NOT NULL,
+          "ClaimType" TEXT NULL,
+          "ClaimValue" TEXT NULL,
+          CONSTRAINT "FK_AspNetRoleClaims_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetUserClaims" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_AspNetUserClaims" PRIMARY KEY AUTOINCREMENT,
+          "UserId" TEXT NOT NULL,
+          "ClaimType" TEXT NULL,
+          "ClaimValue" TEXT NULL,
+          CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetUserLogins" (
+          "LoginProvider" TEXT NOT NULL,
+          "ProviderKey" TEXT NOT NULL,
+          "ProviderDisplayName" TEXT NULL,
+          "UserId" TEXT NOT NULL,
+          CONSTRAINT "PK_AspNetUserLogins" PRIMARY KEY ("LoginProvider", "ProviderKey"),
+          CONSTRAINT "FK_AspNetUserLogins_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetUserRoles" (
+          "UserId" TEXT NOT NULL,
+          "RoleId" TEXT NOT NULL,
+          CONSTRAINT "PK_AspNetUserRoles" PRIMARY KEY ("UserId", "RoleId"),
+          CONSTRAINT "FK_AspNetUserRoles_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE,
+          CONSTRAINT "FK_AspNetUserRoles_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "AspNetUserTokens" (
+          "UserId" TEXT NOT NULL,
+          "LoginProvider" TEXT NOT NULL,
+          "Name" TEXT NOT NULL,
+          "Value" TEXT NULL,
+          CONSTRAINT "PK_AspNetUserTokens" PRIMARY KEY ("UserId", "LoginProvider", "Name"),
+          CONSTRAINT "FK_AspNetUserTokens_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Products" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Products" PRIMARY KEY AUTOINCREMENT,
+          "Name" TEXT NOT NULL,
+          "Description" TEXT NOT NULL,
+          "CategoryId" INTEGER NOT NULL,
+          "Price" TEXT NOT NULL,
+          "DiscountPercent" TEXT NOT NULL,
+          "StockQuantity" INTEGER NOT NULL,
+          "LowStockThreshold" INTEGER NOT NULL,
+          "Barcode" TEXT NOT NULL,
+          "ProductCode" TEXT NULL,
+          "ImagePath" TEXT NULL,
+          "Status" INTEGER NOT NULL,
+          "CreatedAt" TEXT NOT NULL,
+          CONSTRAINT "FK_Products_Categories_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Categories" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Orders" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Orders" PRIMARY KEY AUTOINCREMENT,
+          "OrderNumber" TEXT NOT NULL,
+          "OrderDate" TEXT NOT NULL,
+          "CustomerId" INTEGER NOT NULL,
+          "CustomerName" TEXT NOT NULL,
+          "CustomerEmail" TEXT NOT NULL,
+          "CustomerPhone" TEXT NULL,
+          "DeliveryAddress" TEXT NULL,
+          "TotalAmount" TEXT NOT NULL,
+          "OrderStatus" TEXT NOT NULL,
+          "PaymentStatus" TEXT NOT NULL,
+          "PaymentMethod" TEXT NOT NULL,
+          "Notes" TEXT NULL,
+          "BookId" INTEGER NULL,
+          CONSTRAINT "FK_Orders_Books_BookId" FOREIGN KEY ("BookId") REFERENCES "Books" ("Id"),
+          CONSTRAINT "FK_Orders_Customers_CustomerId" FOREIGN KEY ("CustomerId") REFERENCES "Customers" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "OrderItems" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_OrderItems" PRIMARY KEY AUTOINCREMENT,
+          "OrderId" INTEGER NOT NULL,
+          "ProductId" INTEGER NOT NULL,
+          "ProductName" TEXT NOT NULL,
+          "Quantity" INTEGER NOT NULL,
+          "UnitPrice" TEXT NOT NULL,
+          CONSTRAINT "FK_OrderItems_Orders_OrderId" FOREIGN KEY ("OrderId") REFERENCES "Orders" ("Id") ON DELETE CASCADE,
+          CONSTRAINT "FK_OrderItems_Products_ProductId" FOREIGN KEY ("ProductId") REFERENCES "Products" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON "AspNetRoleClaims" ("RoleId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX "RoleNameIndex" ON "AspNetRoles" ("NormalizedName");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_AspNetUserClaims_UserId" ON "AspNetUserClaims" ("UserId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_AspNetUserLogins_UserId" ON "AspNetUserLogins" ("UserId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_AspNetUserRoles_RoleId" ON "AspNetUserRoles" ("RoleId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "EmailIndex" ON "AspNetUsers" ("NormalizedEmail");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX "UserNameIndex" ON "AspNetUsers" ("NormalizedUserName");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_OrderItems_OrderId" ON "OrderItems" ("OrderId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_OrderItems_ProductId" ON "OrderItems" ("ProductId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_Orders_BookId" ON "Orders" ("BookId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_Orders_CustomerId" ON "Orders" ("CustomerId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_Products_CategoryId" ON "Products" ("CategoryId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+      VALUES ('20260804205035_InitialCreateSqlite', '8.0.28');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Categories" AS "c")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 35), @p2='?' (DbType = Boolean), @p3='?' (Size = 14)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Categories" ("CreatedDate", "Description", "IsActive", "Name")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 44), @p2='?' (DbType = Boolean), @p3='?' (Size = 18)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Categories" ("CreatedDate", "Description", "IsActive", "Name")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 54), @p2='?' (DbType = Boolean), @p3='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Categories" ("CreatedDate", "Description", "IsActive", "Name")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 46), @p2='?' (DbType = Boolean), @p3='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Categories" ("CreatedDate", "Description", "IsActive", "Name")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 41), @p2='?' (DbType = Boolean), @p3='?' (Size = 22)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Categories" ("CreatedDate", "Description", "IsActive", "Name")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Recipes" AS "r")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 14), @p1='?' (DbType = DateTime), @p2='?' (Size = 34), @p3='?' (Size = 88), @p4='?' (DbType = Boolean), @p5='?' (Size = 31), @p6='?' (DbType = Decimal), @p7='?' (Size = 198)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Recipes" ("Category", "CreatedDate", "ImagePath", "Ingredients", "IsFree", "Name", "Price", "Procedure")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 14), @p1='?' (DbType = DateTime), @p2='?' (Size = 34), @p3='?' (Size = 109), @p4='?' (DbType = Boolean), @p5='?' (Size = 30), @p6='?' (DbType = Decimal), @p7='?' (Size = 173)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Recipes" ("Category", "CreatedDate", "ImagePath", "Ingredients", "IsFree", "Name", "Price", "Procedure")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 15), @p1='?' (DbType = DateTime), @p2='?' (Size = 34), @p3='?' (Size = 94), @p4='?' (DbType = Boolean), @p5='?' (Size = 33), @p6='?' (DbType = Decimal), @p7='?' (Size = 189)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Recipes" ("Category", "CreatedDate", "ImagePath", "Ingredients", "IsFree", "Name", "Price", "Procedure")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 15), @p1='?' (DbType = DateTime), @p2='?' (Size = 34), @p3='?' (Size = 109), @p4='?' (DbType = Boolean), @p5='?' (Size = 33), @p6='?' (DbType = Decimal), @p7='?' (Size = 180)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Recipes" ("Category", "CreatedDate", "ImagePath", "Ingredients", "IsFree", "Name", "Price", "Procedure")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Books" AS "b")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 18), @p1='?' (Size = 69), @p2='?' (Size = 24), @p3='?' (DbType = Decimal), @p4='?' (DbType = Int32), @p5='?' (Size = 32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Books" ("Author", "Description", "ImagePath", "Price", "StockQuantity", "Title")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 13), @p1='?' (Size = 61), @p2='?' (Size = 24), @p3='?' (DbType = Decimal), @p4='?' (DbType = Int32), @p5='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Books" ("Author", "Description", "ImagePath", "Price", "StockQuantity", "Title")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 8), @p1='?' (Size = 55), @p2='?' (Size = 24), @p3='?' (DbType = Decimal), @p4='?' (DbType = Int32), @p5='?' (Size = 32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Books" ("Author", "Description", "ImagePath", "Price", "StockQuantity", "Title")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Products" AS "p")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."CreatedDate", "c"."Description", "c"."IsActive", "c"."Name"
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 60), @p4='?' (DbType = Decimal), @p5='?' (Size = 28), @p6='?' (DbType = Int32), @p7='?' (Size = 23), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 70), @p4='?' (DbType = Decimal), @p5='?' (Size = 30), @p6='?' (DbType = Int32), @p7='?' (Size = 28), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 72), @p4='?' (DbType = Decimal), @p5='?' (Size = 31), @p6='?' (DbType = Int32), @p7='?' (Size = 26), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 61), @p4='?' (DbType = Decimal), @p5='?' (Size = 26), @p6='?' (DbType = Int32), @p7='?' (Size = 26), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 67), @p4='?' (DbType = Decimal), @p5='?' (Size = 30), @p6='?' (DbType = Int32), @p7='?' (Size = 25), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 12), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime), @p3='?' (Size = 69), @p4='?' (DbType = Decimal), @p5='?' (Size = 28), @p6='?' (DbType = Int32), @p7='?' (Size = 27), @p8='?' (DbType = Decimal), @p9='?' (Size = 11), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Products" ("Barcode", "CategoryId", "CreatedAt", "Description", "DiscountPercent", "ImagePath", "LowStockThreshold", "Name", "Price", "ProductCode", "Status", "StockQuantity")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Customers" AS "c")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 33), @p1='?' (DbType = DateTime), @p2='?' (Size = 15), @p3='?' (Size = 13), @p4='?' (DbType = Boolean), @p5='?' (DbType = DateTime), @p6='?' (Size = 17), @p7='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Customers" ("Address", "CreatedAt", "Email", "FullName", "IsActive", "LastActivityDate", "Phone", "ProfileImagePath")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 33), @p1='?' (DbType = DateTime), @p2='?' (Size = 15), @p3='?' (Size = 12), @p4='?' (DbType = Boolean), @p5='?' (DbType = DateTime), @p6='?' (Size = 17), @p7='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Customers" ("Address", "CreatedAt", "Email", "FullName", "IsActive", "LastActivityDate", "Phone", "ProfileImagePath")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 35), @p1='?' (DbType = DateTime), @p2='?' (Size = 18), @p3='?' (Size = 13), @p4='?' (DbType = Boolean), @p5='?' (DbType = DateTime), @p6='?' (Size = 17), @p7='?'], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Customers" ("Address", "CreatedAt", "Email", "FullName", "IsActive", "LastActivityDate", "Phone", "ProfileImagePath")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Orders" AS "o")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."Address", "c"."CreatedAt", "c"."Email", "c"."FullName", "c"."IsActive", "c"."LastActivityDate", "c"."Phone", "c"."ProfileImagePath"
+      FROM "Customers" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Barcode", "p"."CategoryId", "p"."CreatedAt", "p"."Description", "p"."DiscountPercent", "p"."ImagePath", "p"."LowStockThreshold", "p"."Name", "p"."Price", "p"."ProductCode", "p"."Status", "p"."StockQuantity"
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "b"."Id", "b"."Author", "b"."Description", "b"."ImagePath", "b"."Price", "b"."StockQuantity", "b"."Title"
+      FROM "Books" AS "b"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 15), @p2='?' (DbType = Int32), @p3='?' (Size = 13), @p4='?' (Size = 17), @p5='?' (Size = 33), @p6='?' (Size = 33), @p7='?' (DbType = DateTime), @p8='?' (Size = 17), @p9='?' (Size = 9), @p10='?' (Size = 11), @p11='?' (Size = 4), @p12='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Orders" ("BookId", "CustomerEmail", "CustomerId", "CustomerName", "CustomerPhone", "DeliveryAddress", "Notes", "OrderDate", "OrderNumber", "OrderStatus", "PaymentMethod", "PaymentStatus", "TotalAmount")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 15), @p2='?' (DbType = Int32), @p3='?' (Size = 12), @p4='?' (Size = 17), @p5='?' (Size = 33), @p6='?' (Size = 31), @p7='?' (DbType = DateTime), @p8='?' (Size = 17), @p9='?' (Size = 10), @p10='?' (Size = 6), @p11='?' (Size = 4), @p12='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Orders" ("BookId", "CustomerEmail", "CustomerId", "CustomerName", "CustomerPhone", "DeliveryAddress", "Notes", "OrderDate", "OrderNumber", "OrderStatus", "PaymentMethod", "PaymentStatus", "TotalAmount")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?' (Size = 23), @p16='?' (DbType = Int32), @p17='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "OrderItems" ("OrderId", "ProductId", "ProductName", "Quantity", "UnitPrice")
+      VALUES (@p13, @p14, @p15, @p16, @p17)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (Size = 28), @p3='?' (DbType = Int32), @p4='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "OrderItems" ("OrderId", "ProductId", "ProductName", "Quantity", "UnitPrice")
+      VALUES (@p0, @p1, @p2, @p3, @p4)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (Size = 26), @p3='?' (DbType = Int32), @p4='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "OrderItems" ("OrderId", "ProductId", "ProductName", "Quantity", "UnitPrice")
+      VALUES (@p0, @p1, @p2, @p3, @p4)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Feedbacks" AS "f")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 15), @p1='?' (DbType = Boolean), @p2='?' (DbType = Boolean), @p3='?' (Size = 115), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Feedbacks" ("Email", "IsRead", "IsRegistered", "Message", "Rating", "SubmittedDate", "UserId", "UserName")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 15), @p1='?' (DbType = Boolean), @p2='?' (DbType = Boolean), @p3='?' (Size = 92), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime), @p6='?', @p7='?' (Size = 12)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Feedbacks" ("Email", "IsRead", "IsRegistered", "Message", "Rating", "SubmittedDate", "UserId", "UserName")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (Size = 36), @p1='?', @p2='?' (Size = 5), @p3='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetRoles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
+      VALUES (@p0, @p1, @p2, @p3);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 36), @p1='?', @p2='?' (Size = 4), @p3='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetRoles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
+      VALUES (@p0, @p1, @p2, @p3);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (Size = 36), @p1='?' (DbType = Int32), @p2='?' (Size = 12), @p3='?' (Size = 36), @p4='?' (DbType = DateTime), @p5='?' (Size = 16), @p6='?' (DbType = Boolean), @p7='?' (Size = 5), @p8='?' (DbType = Boolean), @p9='?' (DbType = Boolean), @p10='?' (DbType = DateTimeOffset), @p11='?' (Size = 16), @p12='?' (Size = 16), @p13='?' (Size = 84), @p14='?' (DbType = DateTime), @p15='?' (DbType = DateTime), @p16='?' (Size = 6), @p17='?', @p18='?' (DbType = Boolean), @p19='?', @p20='?' (Size = 32), @p21='?' (DbType = Boolean), @p22='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetUsers" ("Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FullName", "IsPaid", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PaymentDate", "PaymentExpiry", "PaymentType", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePicture", "SecurityStamp", "TwoFactorEnabled", "UserName")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (Size = 36), @__p_1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."UserId", "a"."RoleId"
+      FROM "AspNetUserRoles" AS "a"
+      WHERE "a"."UserId" = @__p_0 AND "a"."RoleId" = @__p_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 36), @p1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetUserRoles" ("RoleId", "UserId")
+      VALUES (@p0, @p1);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p22='?' (Size = 36), @p0='?' (DbType = Int32), @p1='?' (Size = 12), @p2='?' (Size = 36), @p23='?' (Size = 36), @p3='?' (DbType = DateTime), @p4='?' (Size = 16), @p5='?' (DbType = Boolean), @p6='?' (Size = 5), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTimeOffset), @p10='?' (Size = 16), @p11='?' (Size = 16), @p12='?' (Size = 84), @p13='?' (DbType = DateTime), @p14='?' (DbType = DateTime), @p15='?' (Size = 6), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?' (Size = 32), @p20='?' (DbType = Boolean), @p21='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      UPDATE "AspNetUsers" SET "AccessFailedCount" = @p0, "Address" = @p1, "ConcurrencyStamp" = @p2, "CreatedAt" = @p3, "Email" = @p4, "EmailConfirmed" = @p5, "FullName" = @p6, "IsPaid" = @p7, "LockoutEnabled" = @p8, "LockoutEnd" = @p9, "NormalizedEmail" = @p10, "NormalizedUserName" = @p11, "PasswordHash" = @p12, "PaymentDate" = @p13, "PaymentExpiry" = @p14, "PaymentType" = @p15, "PhoneNumber" = @p16, "PhoneNumberConfirmed" = @p17, "ProfilePicture" = @p18, "SecurityStamp" = @p19, "TwoFactorEnabled" = @p20, "UserName" = @p21
+      WHERE "Id" = @p22 AND "ConcurrencyStamp" = @p23
+      RETURNING 1;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (Size = 36), @p1='?' (DbType = Int32), @p2='?' (Size = 12), @p3='?' (Size = 36), @p4='?' (DbType = DateTime), @p5='?' (Size = 15), @p6='?' (DbType = Boolean), @p7='?' (Size = 12), @p8='?' (DbType = Boolean), @p9='?' (DbType = Boolean), @p10='?' (DbType = DateTimeOffset), @p11='?' (Size = 15), @p12='?' (Size = 15), @p13='?' (Size = 84), @p14='?' (DbType = DateTime), @p15='?' (DbType = DateTime), @p16='?' (Size = 7), @p17='?', @p18='?' (DbType = Boolean), @p19='?', @p20='?' (Size = 32), @p21='?' (DbType = Boolean), @p22='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetUsers" ("Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FullName", "IsPaid", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PaymentDate", "PaymentExpiry", "PaymentType", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePicture", "SecurityStamp", "TwoFactorEnabled", "UserName")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (Size = 36), @__p_1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."UserId", "a"."RoleId"
+      FROM "AspNetUserRoles" AS "a"
+      WHERE "a"."UserId" = @__p_0 AND "a"."RoleId" = @__p_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 4)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 36), @p1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "AspNetUserRoles" ("RoleId", "UserId")
+      VALUES (@p0, @p1);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p22='?' (Size = 36), @p0='?' (DbType = Int32), @p1='?' (Size = 12), @p2='?' (Size = 36), @p23='?' (Size = 36), @p3='?' (DbType = DateTime), @p4='?' (Size = 15), @p5='?' (DbType = Boolean), @p6='?' (Size = 12), @p7='?' (DbType = Boolean), @p8='?' (DbType = Boolean), @p9='?' (DbType = DateTimeOffset), @p10='?' (Size = 15), @p11='?' (Size = 15), @p12='?' (Size = 84), @p13='?' (DbType = DateTime), @p14='?' (DbType = DateTime), @p15='?' (Size = 7), @p16='?', @p17='?' (DbType = Boolean), @p18='?', @p19='?' (Size = 32), @p20='?' (DbType = Boolean), @p21='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      UPDATE "AspNetUsers" SET "AccessFailedCount" = @p0, "Address" = @p1, "ConcurrencyStamp" = @p2, "CreatedAt" = @p3, "Email" = @p4, "EmailConfirmed" = @p5, "FullName" = @p6, "IsPaid" = @p7, "LockoutEnabled" = @p8, "LockoutEnd" = @p9, "NormalizedEmail" = @p10, "NormalizedUserName" = @p11, "PasswordHash" = @p12, "PaymentDate" = @p13, "PaymentExpiry" = @p14, "PaymentType" = @p15, "PhoneNumber" = @p16, "PhoneNumberConfirmed" = @p17, "ProfilePicture" = @p18, "SecurityStamp" = @p19, "TwoFactorEnabled" = @p20, "UserName" = @p21
+      WHERE "Id" = @p22 AND "ConcurrencyStamp" = @p23
+      RETURNING 1;
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {99d76663-5f63-492b-a201-7539b754e76c} may be persisted to storage in unencrypted form.
+warn: Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer[8]
+      The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5274
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://localhost:5275
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedUserName_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedUserName" = @__normalizedUserName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__user_Id_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ClaimType", "a"."ClaimValue", "a"."UserId"
+      FROM "AspNetUserClaims" AS "a"
+      WHERE "a"."UserId" = @__user_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a0"."Name"
+      FROM "AspNetUserRoles" AS "a"
+      INNER JOIN "AspNetRoles" AS "a0" ON "a"."RoleId" = "a0"."Id"
+      WHERE "a"."UserId" = @__userId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedName_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__role_Id_0='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."ClaimType", "a"."ClaimValue"
+      FROM "AspNetRoleClaims" AS "a"
+      WHERE "a"."RoleId" = @__role_Id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedEmail_0='?' (Size = 16)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."AccessFailedCount", "a"."Address", "a"."ConcurrencyStamp", "a"."CreatedAt", "a"."Email", "a"."EmailConfirmed", "a"."FullName", "a"."IsPaid", "a"."LockoutEnabled", "a"."LockoutEnd", "a"."NormalizedEmail", "a"."NormalizedUserName", "a"."PasswordHash", "a"."PaymentDate", "a"."PaymentExpiry", "a"."PaymentType", "a"."PhoneNumber", "a"."PhoneNumberConfirmed", "a"."ProfilePicture", "a"."SecurityStamp", "a"."TwoFactorEnabled", "a"."UserName"
+      FROM "AspNetUsers" AS "a"
+      WHERE "a"."NormalizedEmail" = @__normalizedEmail_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 5)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."ConcurrencyStamp", "a"."Name", "a"."NormalizedName"
+      FROM "AspNetRoles" AS "a"
+      WHERE "a"."NormalizedName" = @__normalizedRoleName_0
+      LIMIT 2
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (Size = 36), @__p_1='?' (Size = 36)], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."UserId", "a"."RoleId"
+      FROM "AspNetUserRoles" AS "a"
+      WHERE "a"."UserId" = @__p_0 AND "a"."RoleId" = @__p_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime', 'start of day', 'start of day'), '0'), '.')
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE CAST(strftime('%m', "o"."OrderDate") AS INTEGER) = CAST(strftime('%m', 'now', 'localtime') AS INTEGER) AND CAST(strftime('%Y', "o"."OrderDate") AS INTEGER) = CAST(strftime('%Y', 'now', 'localtime') AS INTEGER)
+warn: Microsoft.EntityFrameworkCore.Query[10102]
+      The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Name", "p"."StockQuantity", "p"."LowStockThreshold", CASE
+          WHEN "p"."LowStockThreshold" > 0 THEN CAST((CAST("p"."StockQuantity" AS REAL) / CAST("p"."LowStockThreshold" AS REAL)) * 100.0 AS INTEGER)
+          ELSE 0
+      END AS "StockPercent"
+      FROM "Products" AS "p"
+      WHERE "p"."StockQuantity" <= "p"."LowStockThreshold"
+      LIMIT @__p_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o0"."ProductId", "o0"."ProductName", "o0"."Quantity", "o0"."UnitPrice"
+      FROM "Orders" AS "o"
+      INNER JOIN "OrderItems" AS "o0" ON "o"."Id" = "o0"."OrderId"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Orders" AS "o"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Customers" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Products" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Categories" AS "c"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__date_Date_0='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."TotalAmount"
+      FROM "Orders" AS "o"
+      WHERE rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "o"."OrderDate", 'start of day'), '0'), '.') = @__date_Date_0

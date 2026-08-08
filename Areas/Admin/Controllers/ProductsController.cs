@@ -20,10 +20,47 @@ namespace Ice_Cream_Parlour_Eproject.Areas.Admin.Controllers
         }
 
         // ===== INDEX =====
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string sortBy, int? pageNumber)
         {
-            var recipes = await context.Recipes.ToListAsync();
-            return View(recipes);
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentSort"] = sortBy;
+
+            var query = context.Recipes.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(r => r.Name.Contains(searchString) || r.Category.Contains(searchString));
+            }
+
+            switch (sortBy)
+            {
+                case "name_desc":
+                    query = query.OrderByDescending(r => r.Name);
+                    break;
+                case "category":
+                    query = query.OrderBy(r => r.Category);
+                    break;
+                case "price":
+                    query = query.OrderBy(r => r.Price);
+                    break;
+                case "price_desc":
+                    query = query.OrderByDescending(r => r.Price);
+                    break;
+                default:
+                    query = query.OrderBy(r => r.Name);
+                    break;
+            }
+
+            int pageSize = 5;
+            int page = pageNumber ?? 1;
+
+            var count = await query.CountAsync();
+            var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            ViewData["TotalPages"] = (int)Math.Ceiling(count / (double)pageSize);
+            ViewData["CurrentPage"] = page;
+
+            return View(items);
         }
 
         // ===== CREATE (GET) =====

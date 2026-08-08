@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ===== Database Context =====
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("icecreamcs")));
+    options.UseSqlite("Data Source=icecream.db"));
 
 // ===== Register Services =====
 builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -78,6 +78,13 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    // --- Auto-apply any pending migrations on startup ---
+    await context.Database.MigrateAsync();
+
+    // --- Seed Categories, Products, Books, Orders, Customers, Feedbacks ---
+    await Ice_Cream_Parlour_Eproject.Helpers.DatabaseSeeder.SeedAsync(context);
 
     // --- Create Roles ---
     string[] roles = { "Admin", "User" };
