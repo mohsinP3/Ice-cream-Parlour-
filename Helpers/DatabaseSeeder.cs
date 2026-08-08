@@ -40,7 +40,7 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
                         Category = "Artisan Scoops",
                         Ingredients = "2 cups heavy cream, 1 cup whole milk, 3/4 cup sugar, 1 vanilla bean split, pinch of salt",
                         Procedure = "1. Heat cream, milk, sugar, and scraped vanilla bean pod in sauce pan until warm.\n2. Chill in refrigerator for 4 hours.\n3. Churn in ice cream maker for 25 mins.\n4. Freeze for 2 hours before serving.",
-                        ImagePath = "/images/recipes/default-recipe.jpg",
+                        ImagePath = "https://images.unsplash.com/photo-1570145820259-b5b80c5c8bd6?q=80&w=600&auto=format&fit=crop",
                         IsFree = true,
                         Price = 0.00m,
                         CreatedDate = DateTime.Now.AddMonths(-5)
@@ -51,7 +51,7 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
                         Category = "Artisan Scoops",
                         Ingredients = "2 cups heavy cream, 1 cup dark milk, 1/2 cup Dutch cocoa powder, 6oz 70% dark chocolate chunks, 3/4 cup sugar",
                         Procedure = "1. Whisk cocoa powder and sugar into warm milk until dissolved.\n2. Melt dark chocolate into cream mixture.\n3. Chill thoroughly and churn.\n4. Fold in chocolate fudge ribbons.",
-                        ImagePath = "/images/recipes/default-recipe.jpg",
+                        ImagePath = "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=600&auto=format&fit=crop",
                         IsFree = false,
                         Price = 15.00m,
                         CreatedDate = DateTime.Now.AddMonths(-5)
@@ -62,7 +62,7 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
                         Category = "Gelato & Sorbet",
                         Ingredients = "3 cups fresh mango puree, 1/2 cup passionfruit juice, 3/4 cup simple syrup, 1 tbsp lemon juice",
                         Procedure = "1. Blend fresh ripe mangoes with passionfruit juice and simple syrup.\n2. Strain through fine mesh strainer.\n3. Chill for 2 hours and churn until smooth and icy.\n4. Garnish with mint leaves.",
-                        ImagePath = "/images/recipes/default-recipe.jpg",
+                        ImagePath = "https://images.unsplash.com/photo-1505394033774-87f57a89ec36?q=80&w=600&auto=format&fit=crop",
                         IsFree = true,
                         Price = 0.00m,
                         CreatedDate = DateTime.Now.AddMonths(-4)
@@ -73,7 +73,7 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
                         Category = "Gelato & Sorbet",
                         Ingredients = "1 cup roasted unsalted pistachios ground into paste, 2 cups milk, 1 cup heavy cream, 3/4 cup sugar, egg yolks",
                         Procedure = "1. Make custard base with milk, sugar, and egg yolks heated to 175°F.\n2. Whisk in rich pistachio paste.\n3. Chill 6 hours, then process in gelato machine for ultra-dense creaminess.",
-                        ImagePath = "/images/recipes/default-recipe.jpg",
+                        ImagePath = "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?q=80&w=600&auto=format&fit=crop",
                         IsFree = false,
                         Price = 15.00m,
                         CreatedDate = DateTime.Now.AddMonths(-4)
@@ -89,9 +89,9 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
             {
                 var books = new List<Book>
                 {
-                    new Book { Title = "Artisan Ice Cream Making at Home", Author = "Chef Antonio Rossi", Description = "Master 50+ traditional Italian gelatos, sorbets, and frozen desserts.", Price = 24.99m, StockQuantity = 25, ImagePath = "/images/books/book-1.jpg" },
-                    new Book { Title = "The Ultimate Sundae & Toppings", Author = "Sarah Jenkins", Description = "Learn to create hot fudges, caramel sauces, and waffle cones.", Price = 19.99m, StockQuantity = 40, ImagePath = "/images/books/book-2.jpg" },
-                    new Book { Title = "Dairy-Free & Vegan Frozen Treats", Author = "Maya Lin", Description = "Delicious plant-based sorbets and coconut-cream scoops.", Price = 22.50m, StockQuantity = 15, ImagePath = "/images/books/book-3.jpg" }
+                    new Book { Title = "Artisan Ice Cream Making at Home", Author = "Chef Antonio Rossi", Description = "Master 50+ traditional Italian gelatos, sorbets, and frozen desserts.", Price = 24.99m, StockQuantity = 25, ImagePath = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=600&auto=format&fit=crop" },
+                    new Book { Title = "The Ultimate Sundae & Toppings", Author = "Sarah Jenkins", Description = "Learn to create hot fudges, caramel sauces, and waffle cones.", Price = 19.99m, StockQuantity = 40, ImagePath = "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop" },
+                    new Book { Title = "Dairy-Free & Vegan Frozen Treats", Author = "Maya Lin", Description = "Delicious plant-based sorbets and coconut-cream scoops.", Price = 22.50m, StockQuantity = 15, ImagePath = "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=600&auto=format&fit=crop" }
                 };
 
                 await context.Books.AddRangeAsync(books);
@@ -110,12 +110,12 @@ namespace Ice_Cream_Parlour_Eproject.Helpers
 
                 var products = new List<Product>
                 {
-                    new Product { Name = "Madagascar Vanilla Bean", Description = "Classic rich vanilla made with real Madagascar vanilla pods.", CategoryId = catArtisan, Price = 8.50m, DiscountPercent = 10m, StockQuantity = 45, LowStockThreshold = 10, Barcode = "123456789012", ProductCode = "PROD-VAN-01", ImagePath = "/images/products/vanilla.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
-                    new Product { Name = "Belgian Dark Chocolate Fudge", Description = "Deep 70% dark Belgian chocolate scoop swirled with decadent hot fudge.", CategoryId = catArtisan, Price = 9.99m, DiscountPercent = 15m, StockQuantity = 30, LowStockThreshold = 10, Barcode = "123456789013", ProductCode = "PROD-CHO-02", ImagePath = "/images/products/chocolate.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
-                    new Product { Name = "Fresh Strawberry Shortcake", Description = "Made with organic ripe strawberries and graham cracker biscuit crumbles.", CategoryId = catGelato, Price = 10.50m, DiscountPercent = 0m, StockQuantity = 22, LowStockThreshold = 5, Barcode = "123456789014", ProductCode = "PROD-STR-03", ImagePath = "/images/products/strawberry.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
-                    new Product { Name = "Mango Passion Fruit Sorbet", Description = "100% dairy-free tropical mango and tangy passionfruit sorbet.", CategoryId = catGelato, Price = 7.99m, DiscountPercent = 5m, StockQuantity = 50, LowStockThreshold = 10, Barcode = "123456789015", ProductCode = "PROD-MAN-04", ImagePath = "/images/products/mango.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
-                    new Product { Name = "Sicilian Pistachio Crunch", Description = "Roasted Bronte pistachios blended into silky smooth Italian gelato.", CategoryId = catGelato, Price = 11.25m, DiscountPercent = 0m, StockQuantity = 8, LowStockThreshold = 10, Barcode = "123456789016", ProductCode = "PROD-PIS-05", ImagePath = "/images/products/pistachio.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
-                    new Product { Name = "Salted Caramel Butterscotch", Description = "Caramelized brown sugar with sea salt chunks and butterscotch crunch.", CategoryId = catSundae, Price = 12.00m, DiscountPercent = 20m, StockQuantity = 3, LowStockThreshold = 5, Barcode = "123456789017", ProductCode = "PROD-CAR-06", ImagePath = "/images/products/caramel.jpg", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) }
+                    new Product { Name = "Madagascar Vanilla Bean", Description = "Classic rich vanilla made with real Madagascar vanilla pods.", CategoryId = catArtisan, Price = 8.50m, DiscountPercent = 10m, StockQuantity = 45, LowStockThreshold = 10, Barcode = "123456789012", ProductCode = "PROD-VAN-01", ImagePath = "https://images.unsplash.com/photo-1570145820259-b5b80c5c8bd6?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new Product { Name = "Belgian Dark Chocolate Fudge", Description = "Deep 70% dark Belgian chocolate scoop swirled with decadent hot fudge.", CategoryId = catArtisan, Price = 9.99m, DiscountPercent = 15m, StockQuantity = 30, LowStockThreshold = 10, Barcode = "123456789013", ProductCode = "PROD-CHO-02", ImagePath = "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new Product { Name = "Fresh Strawberry Shortcake", Description = "Made with organic ripe strawberries and graham cracker biscuit crumbles.", CategoryId = catGelato, Price = 10.50m, DiscountPercent = 0m, StockQuantity = 22, LowStockThreshold = 5, Barcode = "123456789014", ProductCode = "PROD-STR-03", ImagePath = "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new Product { Name = "Mango Passion Fruit Sorbet", Description = "100% dairy-free tropical mango and tangy passionfruit sorbet.", CategoryId = catGelato, Price = 7.99m, DiscountPercent = 5m, StockQuantity = 50, LowStockThreshold = 10, Barcode = "123456789015", ProductCode = "PROD-MAN-04", ImagePath = "https://images.unsplash.com/photo-1505394033774-87f57a89ec36?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new Product { Name = "Sicilian Pistachio Crunch", Description = "Roasted Bronte pistachios blended into silky smooth Italian gelato.", CategoryId = catGelato, Price = 11.25m, DiscountPercent = 0m, StockQuantity = 8, LowStockThreshold = 10, Barcode = "123456789016", ProductCode = "PROD-PIS-05", ImagePath = "https://images.unsplash.com/photo-1501443715940-a536eae44c1f?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) },
+                    new Product { Name = "Salted Caramel Butterscotch", Description = "Caramelized brown sugar with sea salt chunks and butterscotch crunch.", CategoryId = catSundae, Price = 12.00m, DiscountPercent = 20m, StockQuantity = 3, LowStockThreshold = 5, Barcode = "123456789017", ProductCode = "PROD-CAR-06", ImagePath = "https://images.unsplash.com/photo-1580915411954-282cb1b0d780?q=80&w=600&auto=format&fit=crop", Status = ProductStatus.Active, CreatedAt = DateTime.Now.AddMonths(-3) }
                 };
 
                 await context.Products.AddRangeAsync(products);
