@@ -1,8 +1,10 @@
 using Ice_Cream_Parlour_Eproject.Data;
 using Ice_Cream_Parlour_Eproject.Models;
+using Ice_Cream_Parlour_Eproject.Areas.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Ice_Cream_Parlour_Eproject.Controllers
 {
@@ -16,10 +18,12 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
         }
 
         // ===== MAIN PAGES =====
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.Products = await _context.Recipes.ToListAsync();
             return View();
         }
+
         public IActionResult Blog()
         {
             return View();
@@ -45,9 +49,10 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
             return View();
         }
 
-        public IActionResult Product()
+        public async Task<IActionResult> Product()
         {
-            return View();
+            var products = await _context.Products.Include(p => p.Category).ToListAsync();
+            return View(products);
         }
 
         public IActionResult Privacy()
