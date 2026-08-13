@@ -1,8 +1,24 @@
 @using Microsoft.EntityFrameworkCore
 @using Ice_Cream_Parlour_Eproject.Data
+@using Ice_Cream_Parlour_Eproject.Models
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Http
 @inject ApplicationDbContext DbContext
+@inject IHttpContextAccessor HttpContextAccessor
 @{
+    // ===== CART COUNT LOGIC =====
+    int cartCount = 0;
+    var cartJson = HttpContextAccessor.HttpContext?.Session.GetString("ShoppingCart");
+    if (!string.IsNullOrEmpty(cartJson))
+    {
+        try
+        {
+            var cartItems = System.Text.Json.JsonSerializer.Deserialize<List<CartItem>>(cartJson);
+            cartCount = cartItems?.Sum(i => i.Quantity) ?? 0;
+        }
+        catch {}
+    }
+
     // ===== MEMBERSHIP BANNER LOGIC =====
     var showMembershipBanner = true;
     if (User.Identity?.IsAuthenticated == true)
@@ -114,6 +130,19 @@
                     <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Book" ? "active" : "")" asp-controller="Book" asp-action="Index">Books</a></li>
                     <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Gallery" ? "active" : "")" asp-controller="Home" asp-action="Gallery">Gallery</a></li>
                     <li class="nav-item"><a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Contact" ? "active" : "")" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+                    <!-- Shopping Cart Item -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cart" ? "active" : "")" asp-controller="Cart" asp-action="Index" style="padding-right: 15px;">
+                            <i class="fas fa-shopping-cart" style="font-size: 1.15rem;"></i>
+                            @if (cartCount > 0)
+                            {
+                                <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem; padding: 3px 6px;">
+                                    @cartCount
+                                </span>
+                            }
+                        </a>
+                    </li>
 
                     <!-- User Menu -->
                     @if (User.Identity?.IsAuthenticated == true)

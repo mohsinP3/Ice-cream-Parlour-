@@ -4,6 +4,7 @@ using Ice_Cream_Parlour_Eproject.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Ice_Cream_Parlour_Eproject.Controllers
@@ -13,16 +14,19 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IWebHostEnvironment webHostEnvironment
+            IWebHostEnvironment webHostEnvironment,
+            ApplicationDbContext context
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _webHostEnvironment = webHostEnvironment;
+            _context = context;
         }
 
         // ===== LOGIN =====
@@ -226,6 +230,15 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
             if (string.IsNullOrEmpty(userId)) return Challenge();
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
+
+            // Fetch user's orders based on their email
+            var orders = await _context.Orders
+                .Include(o => o.OrderItems)
+                .Where(o => o.CustomerEmail != null && user.Email != null && o.CustomerEmail.ToLower() == user.Email.ToLower())
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
+
+            ViewBag.Orders = orders;
             return View(user);
         }
 
@@ -291,6 +304,94 @@ namespace Ice_Cream_Parlour_Eproject.Controllers
 
             TempData["Success"] = "Profile picture updated successfully!";
             return RedirectToAction(nameof(Profile));
+        }
+
+        // ===== EDIT PROFILE (GET) =====
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditProfile()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Challenge();
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            var model = new EditProfileModel
+            {
+                FullName = user.FullName ?? string.Empty,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address
+            };
+            return View(model);
+        }
+
+        // ===== EDIT PROFILE (POST) =====
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditProfileModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId)) return Challenge();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null) return NotFound();
+
+                user.FullName = model.FullName;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Address = model.Address;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["Success"] = "Profile updated successfully!";
+                    return RedirectToAction(nameof(Profile));
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
+
+        // ===== CHANGE PASSWORD (GET) =====
+        [HttpGet]
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordModel());
+        }
+
+        // ===== CHANGE PASSWORD (POST) =====
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId)) return Challenge();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null) return NotFound();
+
+                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    await _signInManager.RefreshSignInAsync(user);
+                    TempData["Success"] = "Password changed successfully!";
+                    return RedirectToAction(nameof(Profile));
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
         }
     }
 }

@@ -1,0 +1,59 @@
+@model EditProfileModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit Profile - iCREAM";
+}
+
+<section class="py-5" style="background: #f8f9fa;">
+    <div class="container" style="max-width: 600px;">
+        <div class="card border-0 shadow-sm rounded-4 p-4" style="border: 1px solid rgba(241,149,178,0.1) !important;">
+            <div class="text-center mb-4">
+                <span class="badge bg-primary text-white px-3 py-2 rounded-pill mb-2">My Profile</span>
+                <h3 class="fw-bold text-dark">Edit Profile Details</h3>
+                <p class="text-muted small">Keep your personal contact details and delivery addresses updated.</p>
+            </div>
+
+            <form asp-action="EditProfile" method="post" class="needs-validation">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 p-2 small mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="FullName" class="form-label fw-semibold text-dark">
+                        <i class="fas fa-user text-primary me-2"></i>Full Name
+                    </label>
+                    <input asp-for="FullName" class="form-control form-control-lg rounded-3" style="border: 2px solid #e9ecef;" placeholder="Enter your full name" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PhoneNumber" class="form-label fw-semibold text-dark">
+                        <i class="fas fa-phone text-primary me-2"></i>Phone Number
+                    </label>
+                    <input asp-for="PhoneNumber" class="form-control form-control-lg rounded-3" style="border: 2px solid #e9ecef;" placeholder="e.g. +92 300 1234567" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Address" class="form-label fw-semibold text-dark">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>Delivery Address
+                    </label>
+                    <textarea asp-for="Address" rows="3" class="form-control rounded-3" style="border: 2px solid #e9ecef;" placeholder="Enter default delivery address"></textarea>
+                    <span asp-validation-for="Address" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill" style="box-shadow: 0 4px 15px rgba(241,149,178,0.3);">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                    <a asp-action="Profile" class="btn btn-outline-secondary btn-lg w-100 rounded-pill">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,125 @@
+@model IEnumerable<CartItem>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Shopping Cart - iCREAM";
+}
+
+<!-- Header Start -->
+<div class="jumbotron jumbotron-fluid page-header" style="margin-bottom: 50px; background-image:url('/img/header.jpg'); background-size: cover; background-position: center;">
+    <div class="container text-center py-5">
+        <h1 class="text-white display-3 mt-lg-5">Your Shopping Cart</h1>
+        <div class="d-inline-flex align-items-center text-white">
+            <p class="m-0"><a class="text-white" asp-action="Index" asp-controller="Home">Home</a></p>
+            <i class="fa fa-circle px-3"></i>
+            <p class="m-0">Cart</p>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="container py-5">
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-5">
+            <!-- Cart Items Column -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                    <h4 class="fw-bold text-dark mb-4"><i class="fas fa-shopping-basket text-primary me-2"></i>Cart Items (@Model.Sum(i => i.Quantity))</h4>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr class="text-muted" style="border-bottom: 2px solid #f8f9fa;">
+                                    <th scope="col" style="border: none;">Product</th>
+                                    <th scope="col" style="border: none;" class="text-center">Price</th>
+                                    <th scope="col" style="border: none;" class="text-center">Quantity</th>
+                                    <th scope="col" style="border: none;" class="text-center">Total</th>
+                                    <th scope="col" style="border: none;" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr style="border-bottom: 1px solid #f8f9fa;">
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-center">
+                                                <img src="@(string.IsNullOrEmpty(item.ImagePath) ? "/img/product-1.jpg" : item.ImagePath)" alt="@item.ProductName" class="rounded-3 me-3" style="width: 70px; height: 70px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.05);" />
+                                                <div>
+                                                    <h6 class="fw-bold mb-1 text-dark">@item.ProductName</h6>
+                                                    <span class="badge bg-light text-muted">ID: #@item.ProductId</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center fw-semibold text-dark">$@item.UnitPrice.ToString("0.00")</td>
+                                        <td class="text-center" style="width: 150px;">
+                                            <form asp-action="UpdateQuantity" method="post" class="d-flex justify-content-center align-items-center">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <div class="input-group input-group-sm" style="max-width: 100px;">
+                                                    <input type="number" name="quantity" value="@item.Quantity" class="form-control text-center" min="1" style="border: 2px solid #e9ecef; border-radius: 8px 0 0 8px;" />
+                                                    <button type="submit" class="btn btn-primary btn-sm" style="border-radius: 0 8px 8px 0;" title="Update"><i class="fas fa-sync-alt"></i></button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                        <td class="text-center fw-bold text-primary">$@item.LineTotal.ToString("0.00")</td>
+                                        <td class="text-center">
+                                            <form asp-action="RemoveFromCart" method="post">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <button type="submit" class="btn btn-link text-danger p-0" title="Remove Item">
+                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Column -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="border: 1px solid rgba(241,149,178,0.1) !important;">
+                    <h5 class="fw-bold text-dark mb-4">Order Summary</h5>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Subtotal</span>
+                        <span class="fw-semibold text-dark">$@Model.Sum(i => i.LineTotal).ToString("0.00")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Delivery</span>
+                        <span class="text-success fw-semibold">FREE</span>
+                    </div>
+
+                    <hr class="my-3" style="border-color: #f8f9fa;" />
+
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="fw-bold text-dark">Total</span>
+                        <span class="fw-bold fs-4 text-primary">$@Model.Sum(i => i.LineTotal).ToString("0.00")</span>
+                    </div>
+
+                    <a asp-action="Checkout" class="btn btn-primary btn-lg w-100 rounded-pill mb-3" style="box-shadow: 0 4px 15px rgba(241,149,178,0.3);">
+                        <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
+                    </a>
+
+                    <a asp-controller="Home" asp-action="Product" class="btn btn-outline-secondary w-100 rounded-pill">
+                        <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
+                <i class="fas fa-shopping-basket fa-3x text-muted"></i>
+            </div>
+            <h3 class="fw-bold text-dark mb-2">Your Cart is Empty</h3>
+            <p class="text-muted mb-4">Looks like you haven't added any premium ice cream flavors to your cart yet.</p>
+            <a asp-controller="Home" asp-action="Product" class="btn btn-primary btn-lg rounded-pill px-5" style="box-shadow: 0 4px 15px rgba(241,149,178,0.3);">
+                Explore Our Products
+            </a>
+        </div>
+    }
+</div>

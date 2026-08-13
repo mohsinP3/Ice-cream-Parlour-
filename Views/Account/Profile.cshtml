@@ -104,11 +104,89 @@
             <div style="border-top: 1px solid #f0ecee; margin: 20px 0;"></div>
 
             <!-- Action Buttons -->
-            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 25px;">
                 <a asp-controller="Account" asp-action="EditProfile" class="btn btn-primary" style="background: linear-gradient(135deg, #F195B2, #62C3E7); border: none; border-radius: 50px; padding: 10px 28px; font-weight: 600; text-decoration: none; color: #fff;">Edit Profile</a>
                 <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-outline-secondary" style="border-radius: 50px; padding: 10px 28px; font-weight: 600; text-decoration: none; border: 1.5px solid #ddd; color: #555;">Change Password</a>
                 <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary" style="border-radius: 50px; padding: 10px 28px; font-weight: 600; text-decoration: none; border: 1.5px solid #ddd; color: #555;">Back to Home</a>
             </div>
+
+            <!-- ===== ORDER HISTORY ===== -->
+            <div style="border-top: 1px solid #f0ecee; padding-top: 25px;">
+                <h5 style="font-weight: 700; color: #2d2d2d; margin-bottom: 15px;"><i class="fas fa-shopping-bag text-primary me-2"></i>My Order History</h5>
+
+                @{
+                    var orders = ViewBag.Orders as IEnumerable<Ice_Cream_Parlour_Eproject.Areas.Models.Order> ?? new List<Ice_Cream_Parlour_Eproject.Areas.Models.Order>();
+                }
+
+                @if (orders.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" style="font-size: 0.9rem;">
+                            <thead>
+                                <tr class="text-muted">
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Products</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in orders)
+                                {
+                                    <tr>
+                                        <td class="fw-bold text-primary">@order.OrderNumber</td>
+                                        <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            @if (order.OrderItems != null && order.OrderItems.Any())
+                                            {
+                                                <ul class="list-unstyled mb-0" style="padding-left: 0;">
+                                                    @foreach (var item in order.OrderItems)
+                                                    {
+                                                        <li class="small text-dark">@item.ProductName x @item.Quantity</li>
+                                                    }
+                                                </ul>
+                                            }
+                                            else if (order.Book != null)
+                                            {
+                                                <span class="small text-dark">Book: @order.Book.Title</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted small">-</span>
+                                            }
+                                        </td>
+                                        <td class="fw-semibold text-dark">$@order.TotalAmount.ToString("0.00")</td>
+                                        <td>
+                                            @if (order.OrderStatus == "Completed" || order.OrderStatus == "Delivered")
+                                            {
+                                                <span class="badge bg-success">@order.OrderStatus</span>
+                                            }
+                                            else if (order.OrderStatus == "Pending")
+                                            {
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info">@order.OrderStatus</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 12px; border: 1px dashed #ddd;">
+                        <i class="fas fa-box-open fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0 small">No orders placed yet. Explore our delicious ice cream products and start ordering!</p>
+                        <a asp-controller="Home" asp-action="Product" class="btn btn-sm btn-link text-primary mt-2" style="font-weight: 600; text-decoration: none;">Browse Products</a>
+                    </div>
+                }
+            </div>
+
         </div>
     </div>
 </section>

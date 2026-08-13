@@ -79,16 +79,30 @@
                     <p class="text-muted small mb-4">We'll get back to you within 24 hours.</p>
 
                     <!-- Success/Error Messages -->
-                    <div id="contactMessage" style="display: none;"></div>
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
 
-                    <form id="contactForm" class="contact-form">
+                    <form id="contactForm" class="contact-form" method="post" asp-controller="Home" asp-action="Contact">
+                        @Html.AntiForgeryToken()
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label fw-semibold">
                                         <i class="fas fa-user text-primary me-2"></i>Your Name
                                     </label>
-                                    <input type="text" id="userName" class="form-control form-control-lg"
+                                    <input type="text" id="userName" name="Name" class="form-control form-control-lg"
                                            placeholder="Enter your full name" required />
                                     <span class="text-danger error-message" id="nameError"></span>
                                 </div>
@@ -98,7 +112,7 @@
                                     <label class="form-label fw-semibold">
                                         <i class="fas fa-envelope text-primary me-2"></i>Your Email
                                     </label>
-                                    <input type="email" id="userEmail" class="form-control form-control-lg"
+                                    <input type="email" id="userEmail" name="Email" class="form-control form-control-lg"
                                            placeholder="Enter your email" required />
                                     <span class="text-danger error-message" id="emailError"></span>
                                 </div>
@@ -109,7 +123,7 @@
                             <label class="form-label fw-semibold">
                                 <i class="fas fa-tag text-primary me-2"></i>Subject
                             </label>
-                            <input type="text" id="userSubject" class="form-control form-control-lg"
+                            <input type="text" id="userSubject" name="Subject" class="form-control form-control-lg"
                                    placeholder="How can we help you?" required />
                             <span class="text-danger error-message" id="subjectError"></span>
                         </div>
@@ -118,7 +132,7 @@
                             <label class="form-label fw-semibold">
                                 <i class="fas fa-comment text-primary me-2"></i>Message
                             </label>
-                            <textarea id="userMessage" class="form-control" rows="5"
+                            <textarea id="userMessage" name="Message" class="form-control" rows="5"
                                       placeholder="Write your message here..." required></textarea>
                             <span class="text-danger error-message" id="messageError"></span>
                         </div>
@@ -203,54 +217,13 @@
                 return;
             }
 
-            // Submit form
+            // Disable button during submit
             const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.innerHTML;
-
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
             submitBtn.disabled = true;
 
-            // Prepare data
-            const formData = {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message,
-                submittedAt: new Date().toISOString()
-            };
-
-            // Save to localStorage (for demo)
-            let messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
-            messages.push(formData);
-            localStorage.setItem('contactMessages', JSON.stringify(messages));
-
-            // Show success message
-            setTimeout(() => {
-                const messageDiv = document.getElementById('contactMessage');
-                messageDiv.style.display = 'block';
-                messageDiv.className = 'alert alert-success';
-                messageDiv.innerHTML = `
-                    <i class="fas fa-check-circle me-2"></i>
-                    <strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.
-                    <button type="button" class="btn-close float-end" onclick="this.parentElement.style.display='none'"></button>
-                `;
-
-                // Reset form
-                document.getElementById('contactForm').reset();
-
-                // Reset button
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-
-                // Auto hide message after 5 seconds
-                setTimeout(() => {
-                    messageDiv.style.display = 'none';
-                }, 5000);
-
-                // Scroll to success message
-                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            }, 1500);
+            // Submit the HTML Form to the server
+            this.submit();
         });
 
         // ===== SOCIAL MEDIA HOVER =====
